@@ -161,7 +161,7 @@ public class Login implements ILogin {
                 new Handler().postDelayed(() -> {
                     loginPermission = true;
                     loginActivity.enableButton();
-                }, 10000);
+                }, 5000);
                 return -2;
             } else if (numberOfLoginAttempts == 2) {
                 loginPermission = false;
@@ -169,7 +169,7 @@ public class Login implements ILogin {
                 new Handler().postDelayed(() -> {
                     loginPermission = true;
                     loginActivity.enableButton();
-                }, 20000);
+                }, 10000);
                 return -3;
             } else
                 return -1;
@@ -190,10 +190,10 @@ public class Login implements ILogin {
             loginActivity.showMessageForUser("Login failed");
             return false;
         } else if (blockType == -2) {
-            loginActivity.showMessageForUser("You have 2 failed login attempts. You must wait 10 seconds to try again");
+            loginActivity.showMessageForUser("You have 2 failed login attempts. You must wait 5 seconds to try again");
             return false;
         } else if (blockType == -3) {
-            loginActivity.showMessageForUser("You have 3 failed login attempts. You must wait 20 seconds to try again");
+            loginActivity.showMessageForUser("You have 3 failed login attempts. You must wait 10 seconds to try again");
             return false;
         } else if (blockType == -4) {
             loginActivity.showMessageForUser("You have at least 4 failed login attempts. Your IP address is permanently blocked");
