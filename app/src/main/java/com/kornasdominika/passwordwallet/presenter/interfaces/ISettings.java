@@ -2,7 +2,7 @@ package com.kornasdominika.passwordwallet.presenter.interfaces;
 
 import android.database.Cursor;
 
-public interface IChangePassword {
+public interface ISettings {
 
     boolean changeUserMasterPassword(int uid, String oldPassword, String newPassword);
 

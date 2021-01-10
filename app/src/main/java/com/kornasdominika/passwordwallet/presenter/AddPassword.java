@@ -48,7 +48,7 @@ public class AddPassword implements IAddPassword {
         } else {
             databaseManager.open();
             boolean result = databaseManager.insertIntoPassword(
-                    new Password(encryptedPassword, uid, webAddr, description, login));
+                    new Password(encryptedPassword, uid, webAddr, description, login, -2, -1));
             databaseManager.close();
             if (result) {
                 addPasswordActivity.showMessageForUser("New password saved");

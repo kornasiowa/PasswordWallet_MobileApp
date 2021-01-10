@@ -8,15 +8,15 @@ import com.kornasdominika.passwordwallet.encryption.EncryptionKey;
 import com.kornasdominika.passwordwallet.encryption.HMAC;
 import com.kornasdominika.passwordwallet.encryption.SHA512;
 import com.kornasdominika.passwordwallet.model.HashDTO;
-import com.kornasdominika.passwordwallet.presenter.interfaces.IChangePassword;
+import com.kornasdominika.passwordwallet.presenter.interfaces.ISettings;
 import com.kornasdominika.passwordwallet.repository.DatabaseManager;
-import com.kornasdominika.passwordwallet.ui.interfaces.IChangePasswordActivity;
+import com.kornasdominika.passwordwallet.ui.interfaces.ISettingsActivity;
 
 import java.security.Key;
 
-public class ChangePassword implements IChangePassword {
+public class Settings implements ISettings {
 
-    private IChangePasswordActivity changePasswordActivity;
+    private ISettingsActivity settingsActivity;
 
     private DatabaseManager databaseManager;
 
@@ -26,10 +26,10 @@ public class ChangePassword implements IChangePassword {
 
     private String oldHash;
 
-    public ChangePassword(IChangePasswordActivity changePasswordActivity, Context context) {
-        this.changePasswordActivity = changePasswordActivity;
+    public Settings(ISettingsActivity settingsActivity, Context context) {
+        this.settingsActivity = settingsActivity;
         this.databaseManager = new DatabaseManager(context);
-        aes = new AES();
+        this.aes = new AES();
     }
 
     /**
@@ -47,12 +47,12 @@ public class ChangePassword implements IChangePassword {
         databaseManager.open();
         if (currentPasswordUserAuthorization(uid, oldPassword)) {
             if (saveNewMasterPassword(uid, newPassword)) {
-                changePasswordActivity.showMessageForUser("New password saved");
+                settingsActivity.showMessageForUser("New password saved");
                 databaseManager.close();
-                changePasswordActivity.finishActivity();
+                settingsActivity.finishActivity();
                 return true;
             } else {
-                changePasswordActivity.showMessageForUser("Update password error");
+                settingsActivity.showMessageForUser("Update password error");
                 databaseManager.close();
                 return false;
             }
@@ -75,7 +75,7 @@ public class ChangePassword implements IChangePassword {
             if (oldHash.equals(inputHash)) {
                 return true;
             } else {
-                changePasswordActivity.showMessageForUser("Current password incorrect");
+                settingsActivity.showMessageForUser("Current password incorrect");
                 return false;
             }
         }

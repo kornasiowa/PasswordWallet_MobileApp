@@ -1,9 +1,11 @@
 package com.kornasdominika.passwordwallet.presenter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 
 import com.kornasdominika.passwordwallet.encryption.AES;
+import com.kornasdominika.passwordwallet.model.Password;
 import com.kornasdominika.passwordwallet.presenter.interfaces.IWallet;
 import com.kornasdominika.passwordwallet.repository.DatabaseManager;
 import com.kornasdominika.passwordwallet.ui.interfaces.IWalletActivity;
@@ -21,7 +23,7 @@ public class Wallet implements IWallet {
     public Wallet(IWalletActivity iWalletActivity, Context context) {
         this.walletActivity = iWalletActivity;
         this.databaseManager = new DatabaseManager(context);
-        aes = new AES();
+        this.aes = new AES();
     }
 
     /**
@@ -39,7 +41,7 @@ public class Wallet implements IWallet {
     /**
      * Gets user master password from Database and uses it to decrypt selected password
      *
-     * @param uid user id
+     * @param uid               user id
      * @param encryptedPassword encrypted password to be decrypted
      * @return decrypted password
      */
@@ -55,7 +57,7 @@ public class Wallet implements IWallet {
     /**
      * Allows to get decrypted password with AES algorithm
      *
-     * @param password to be decrypted
+     * @param password       to be decrypted
      * @param masterPassword User master password to be decryption key
      * @return decrypted password string
      */
@@ -68,4 +70,59 @@ public class Wallet implements IWallet {
         }
         return "Error";
     }
+
+    @Override
+    public String getUserLogin(int uid) {
+        databaseManager.open();
+        String login = databaseManager.getUserLoginById(uid);
+        databaseManager.close();
+
+        return login;
+    }
+
+    @Override
+    public void deletePassword(int id, String message, String message2) {
+        databaseManager.open();
+        boolean result = databaseManager.deletePassword(id);
+        databaseManager.close();
+        if (result) {
+            walletActivity.showMessage(message);
+            walletActivity.setListAdapter();
+        } else {
+            walletActivity.showMessage(message2);
+        }
+    }
+
+    @Override
+    public void sharePassword(String username, Password sharedPassword, AlertDialog alertDialog) {
+        int recipient = checkIfGivenUserExists(username);
+        if (recipient == -1) {
+            walletActivity.showMessage("The user with the given name does not exist");
+            return;
+        } else if (sharedPassword.owner == recipient) {
+            walletActivity.showMessage("You cannot share the password with yourself");
+            return;
+        }
+
+        sharedPassword.setUid(recipient);
+
+        databaseManager.open();
+        boolean result = databaseManager.insertIntoPassword(sharedPassword);
+        databaseManager.close();
+        if (result) {
+            walletActivity.showMessage("Password has been shared successfully");
+        } else {
+            walletActivity.showMessage("Password sharing error");
+        }
+        alertDialog.dismiss();
+    }
+
+    private int checkIfGivenUserExists(String username) {
+        databaseManager.open();
+        int user = databaseManager.findUserByLogin(username);
+        databaseManager.close();
+
+        return user;
+    }
+
 }

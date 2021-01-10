@@ -28,6 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "web_address VARCHAR(256) NOT NULL, " +
             "description VARCHAR(256) NOT NULL, " +
             "login VARCHAR(30) NOT NULL, " +
+            "owner INTEGER, " +
+            "mid INTEGER, " +
             "FOREIGN KEY(id_user) REFERENCES user(id))";
     private static final String CREATE_TABLE_LOGS = "CREATE TABLE " + LOGS_TABLE +
             "( id INTEGER PRIMARY KEY AUTOINCREMENT, " +

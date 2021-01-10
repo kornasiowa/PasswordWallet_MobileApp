@@ -1,6 +1,6 @@
 package com.kornasdominika.passwordwallet.ui.interfaces;
 
-public interface IChangePasswordActivity {
+public interface ISettingsActivity {
 
     void showMessageForUser(String message);
 

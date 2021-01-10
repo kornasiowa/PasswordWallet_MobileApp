@@ -1,9 +1,11 @@
 package com.kornasdominika.passwordwallet.model;
 
+import java.io.Serializable;
+
 /**
  * Class represents Password table into Database
  */
-public class Password {
+public class Password implements Serializable {
 
     public int pid;
     public String password;
@@ -11,13 +13,28 @@ public class Password {
     public String webAddress;
     public String description;
     public String login;
+    public int owner;
+    public int mid;
 
-    public Password(String password, int uid, String webAddress, String description, String login) {
+    public Password(int pid, String password, int uid, String webAddress, String description, String login, int owner, int mid) {
+        this.pid = pid;
         this.password = password;
         this.uid = uid;
         this.webAddress = webAddress;
         this.description = description;
         this.login = login;
+        this.owner = owner;
+        this.mid = mid;
+    }
+
+    public Password(String password, int uid, String webAddress, String description, String login, int owner, int mid) {
+        this.password = password;
+        this.uid = uid;
+        this.webAddress = webAddress;
+        this.description = description;
+        this.login = login;
+        this.owner = owner;
+        this.mid = mid;
     }
 
     public int getPid() {
@@ -66,5 +83,21 @@ public class Password {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public int getOwner() {
+        return owner;
+    }
+
+    public void setOwner(int owner) {
+        this.owner = owner;
+    }
+
+    public int getMid() {
+        return mid;
+    }
+
+    public void setMid(int mid) {
+        this.mid = mid;
     }
 }

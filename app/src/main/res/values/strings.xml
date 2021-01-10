@@ -10,17 +10,20 @@
     <string name="hmac">HMAC</string>
     <string name="sha">SHA512</string>
     <string name="encrypt">Select your encryption option:</string>
-    <string name="menu1">Account settings</string>
+    <string name="menu1">Settings</string>
     <string name="menu2">Database test</string>
     <string name="menu3">Log out</string>
     <string name="web_addr">Web address</string>
     <string name="descript">Description</string>
+    <string name="from">From</string>
     <string name="save">Save</string>
     <string name="n_pass">New password</string>
     <string name="repeat_pass">Repeat password</string>
     <string name="c_pass">Current password</string>
     <string name="change_pass">Change your account password</string>
     <string name="add_pass">Add new password to your wallet</string>
+    <string name="edit_pass">Edit password in your wallet</string>
+    <string name="share_pass">Enter the username you want to share the password with</string>
     <string name="db_test_info">
         The connection to the database has been opened.
         You can check the database content in Database Inspector now.
@@ -32,4 +35,12 @@
     <string name="ip_list">IP ADDRESS</string>
     <string name="time_list">ATTEMPT\'S TIME</string>
     <string name="details_list">DETAILS</string>
+    <string name="to">Send to:</string>
+    <string name="enter_modify_mode">Modify Mode</string>
+    <string name="banner">
+        READ-ONLY MODE
+    </string>
+    <string name="banner2">
+        MODIFY MODE
+    </string>
 </resources>

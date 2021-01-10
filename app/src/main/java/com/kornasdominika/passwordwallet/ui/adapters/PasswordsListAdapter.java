@@ -2,7 +2,6 @@ package com.kornasdominika.passwordwallet.ui.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ public class PasswordsListAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        return LayoutInflater.from(context).inflate(R.layout.list_element, viewGroup, false);
+        return LayoutInflater.from(context).inflate(R.layout.passwords_list_element, viewGroup, false);
     }
 
     @Override

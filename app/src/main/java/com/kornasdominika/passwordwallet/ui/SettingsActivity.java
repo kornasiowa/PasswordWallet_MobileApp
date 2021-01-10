@@ -9,38 +9,40 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.kornasdominika.passwordwallet.R;
-import com.kornasdominika.passwordwallet.presenter.ChangePassword;
-import com.kornasdominika.passwordwallet.presenter.interfaces.IChangePassword;
+import com.kornasdominika.passwordwallet.presenter.Settings;
+import com.kornasdominika.passwordwallet.presenter.interfaces.ISettings;
 import com.kornasdominika.passwordwallet.ui.adapters.LogsListAdapter;
-import com.kornasdominika.passwordwallet.ui.adapters.PasswordsListAdapter;
-import com.kornasdominika.passwordwallet.ui.interfaces.IChangePasswordActivity;
+import com.kornasdominika.passwordwallet.ui.interfaces.ISettingsActivity;
 
 import static android.widget.Toast.makeText;
 
-public class ChangePasswordActivity extends AppCompatActivity implements IChangePasswordActivity {
+public class SettingsActivity extends AppCompatActivity implements ISettingsActivity {
 
-    private IChangePassword changePassword;
+    private ISettings settings;
 
     private Toolbar toolbar;
+    private Switch sMode;
     private EditText etCurrentPass, etNewPass, etNewPass2;
     private Button btnSave;
+
+    public static boolean MODIFY_MODE = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_password);
+        setContentView(R.layout.activity_settings);
 
-        changePassword = new ChangePassword(this, getApplicationContext());
+        settings = new Settings(this, getApplicationContext());
 
         findComponentsIds();
+        setModifyModeSwitch();
         setOnClick();
         setListAdapter();
     }
@@ -53,7 +55,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements IChange
     @Override
     public void finishActivity() {
         Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_OK,returnIntent);
+        setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
 
@@ -65,10 +67,17 @@ public class ChangePasswordActivity extends AppCompatActivity implements IChange
 
     private void findComponentsIds() {
         toolbar = findViewById(R.id.toolbar);
+        sMode = findViewById(R.id.mode);
         etCurrentPass = findViewById(R.id.password);
         etNewPass = findViewById(R.id.new_password);
         etNewPass2 = findViewById(R.id.new_password2);
         btnSave = findViewById(R.id.save);
+    }
+
+    private void setModifyModeSwitch(){
+        if(MODIFY_MODE){
+            sMode.setChecked(true);
+        }
     }
 
     private void setOnClick() {
@@ -76,7 +85,11 @@ public class ChangePasswordActivity extends AppCompatActivity implements IChange
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar.setNavigationOnClickListener(view -> finishActivity());
+
+        sMode.setOnCheckedChangeListener((compoundButton, b) -> {
+            MODIFY_MODE = b;
+        });
 
         btnSave.setOnClickListener(view -> {
             String currentPass = String.valueOf(etCurrentPass.getText());
@@ -84,7 +97,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements IChange
             String newPass2 = String.valueOf(etNewPass2.getText());
 
             if (changePasswordValidation(currentPass, newPass, newPass2)) {
-                changePassword.changeUserMasterPassword(getLoggedUserId(), currentPass, newPass);
+                settings.changeUserMasterPassword(getLoggedUserId(), currentPass, newPass);
             }
         });
 
@@ -106,7 +119,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements IChange
 
     private void setListAdapter() {
         ListView listView = findViewById(R.id.lv);
-        LogsListAdapter logsListAdapter = new LogsListAdapter(this, changePassword.getUserLogs(getLoggedUserId()), true);
+        LogsListAdapter logsListAdapter = new LogsListAdapter(this, settings.getUserLogs(getLoggedUserId()), true);
         listView.setAdapter(logsListAdapter);
 
         listView.setOnItemLongClickListener(((adapterView, view, i, l) -> {
@@ -123,12 +136,17 @@ public class ChangePasswordActivity extends AppCompatActivity implements IChange
         dialog.setMessage("Resetting the number of invalid login attempts allows you to log in from a permanently blocked IP address. " +
                 "In order to protect the account against unauthorized access, it is also recommended to update the access password.");
         dialog.setPositiveButton("Reset", (dialogInterface, i) -> {
-            changePassword.resetLoginAttempts(lid);
+            settings.resetLoginAttempts(lid);
         });
 
         dialog.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss());
 
         AlertDialog alertDialog = dialog.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishActivity();
     }
 }
