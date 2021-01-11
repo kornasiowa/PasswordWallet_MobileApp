@@ -128,11 +128,14 @@ public class Settings implements ISettings {
         cursor.moveToPosition(-1);
         try {
             while (cursor.moveToNext()) {
-                int id = cursor.getInt(0);
-                String password = cursor.getString(4);
-                String decrypted = getDecryptedPassword(password, oldHash);
-                String newEncrypted = getEncryptedPassword(decrypted, newHash);
-                databaseManager.updatePassword(id, newEncrypted);
+                int owner = cursor.getInt(5);
+                if (owner == -2) {
+                    int id = cursor.getInt(0);
+                    String password = cursor.getString(4);
+                    String decrypted = getDecryptedPassword(password, oldHash);
+                    String newEncrypted = getEncryptedPassword(decrypted, newHash);
+                    databaseManager.updatePassword(id, newEncrypted);
+                }
             }
         } finally {
             cursor.close();

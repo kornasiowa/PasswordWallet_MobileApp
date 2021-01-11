@@ -57,6 +57,11 @@ public class EditPasswordActivity extends AppCompatActivity implements IEditPass
         finish();
     }
 
+    @Override
+    public void makeButtonEnable(){
+        btnSave.setEnabled(true);
+    }
+
     private void findComponentsIds() {
         ivLogo = findViewById(R.id.logo);
         ivBack = findViewById(R.id.back);
@@ -77,11 +82,13 @@ public class EditPasswordActivity extends AppCompatActivity implements IEditPass
             String login = String.valueOf(etLogin.getText());
             String password = String.valueOf(etPassword.getText());
             if (editPasswordValidation(webAddress, description, login, password)) {
+                btnSave.setEnabled(false);
+                Password oldPassword = currentPassword;
                 currentPassword.setWebAddress(webAddress);
                 currentPassword.setDescription(description);
                 currentPassword.setLogin(login);
                 currentPassword.setPassword(password);
-                editPassword.updatePassword(currentPassword);
+                editPassword.updatePassword(oldPassword, currentPassword);
             }
         });
     }

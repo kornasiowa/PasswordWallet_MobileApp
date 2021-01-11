@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.kornasdominika.passwordwallet.model.DataChange;
+import com.kornasdominika.passwordwallet.model.Function;
 import com.kornasdominika.passwordwallet.model.HashDTO;
 import com.kornasdominika.passwordwallet.model.Log;
 import com.kornasdominika.passwordwallet.model.Password;
@@ -154,7 +156,7 @@ public class DatabaseManager {
      * @param newPassword
      * @return Returns true if User was added to Database successful
      */
-    public boolean insertIntoPassword(Password newPassword) {
+    public int insertIntoPassword(Password newPassword) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("password", newPassword.password);
         contentValues.put("id_user", newPassword.uid);
@@ -165,7 +167,7 @@ public class DatabaseManager {
         contentValues.put("mid", newPassword.mid);
         database.insert("password", null, contentValues);
 
-        return findPasswordIntoDB(newPassword.uid, newPassword.webAddress, newPassword.login) != -1;
+        return checkIfPasswordWasInserted(newPassword.uid, newPassword.webAddress, newPassword.login, newPassword.password);
     }
 
     /**
@@ -176,8 +178,11 @@ public class DatabaseManager {
      * @param login
      * @return Returns -1 if Password was not find or its id
      */
-    public int findPasswordIntoDB(int uid, String webAddr, String login) {
-        try (Cursor cursor = database.rawQuery("SELECT * FROM password WHERE id_user LIKE '" + uid + "' AND web_address LIKE '" + webAddr + "' AND login LIKE '" + login + "'", null)) {
+    public int checkIfPasswordWasInserted(int uid, String webAddr, String login, String password) {
+        try (Cursor cursor = database.rawQuery("SELECT * FROM password WHERE id_user LIKE '" + uid
+                + "' AND web_address LIKE '" + webAddr
+                + "' AND password LIKE '" + password
+                + "' AND login LIKE '" + login + "'", null)) {
             cursor.moveToFirst();
             cursor.getCount();
             if (cursor.getCount() == 0) {
@@ -241,6 +246,7 @@ public class DatabaseManager {
         ContentValues contentValues = new ContentValues();
         contentValues.put("password", newPassword);
         database.update("password", contentValues, "id=" + id, null);
+        database.update("password", contentValues, "mid=" + id, null);
     }
 
     /**
@@ -258,7 +264,7 @@ public class DatabaseManager {
         database.update("password", contentValues, "id=" + newPassword.pid, null);
         database.update("password", contentValues, "mid=" + newPassword.pid, null);
 
-        return findPasswordIntoDB(newPassword.password, newPassword.webAddress, newPassword.description, newPassword.login) != -1;
+        return findPassword(newPassword.password, newPassword.webAddress, newPassword.description, newPassword.login) != -1;
     }
 
     /**
@@ -270,7 +276,7 @@ public class DatabaseManager {
      * @param login
      * @return Returns -1 if Password was not find or its id
      */
-    public int findPasswordIntoDB(String password, String webAddr, String description, String login) {
+    public int findPassword(String password, String webAddr, String description, String login) {
         try (Cursor cursor = database.rawQuery("SELECT * FROM password WHERE password LIKE '" + password
                 + "' AND web_address LIKE '" + webAddr
                 + "' AND description LIKE '" + description
@@ -283,7 +289,7 @@ public class DatabaseManager {
         }
     }
 
-    public int findPasswordIntoDB(int id) {
+    public int findPasswordByLogin(int id) {
         try (Cursor cursor = database.rawQuery("SELECT * FROM password WHERE id LIKE '" + id + "'", null)) {
             cursor.moveToFirst();
             cursor.getCount();
@@ -306,7 +312,7 @@ public class DatabaseManager {
     public boolean deletePassword(int id) {
         database.delete("password", "id=" + id, null);
         database.delete("password", "mid=" + id, null);
-        return findPasswordIntoDB(id) == -1 && findPasswordByMid(id) == -1;
+        return findPasswordByLogin(id) == -1 && findPasswordByMid(id) == -1;
     }
 
 
@@ -362,5 +368,43 @@ public class DatabaseManager {
         ContentValues contentValues = new ContentValues();
         contentValues.put("failedAttempts", count);
         database.update("logs", contentValues, "id=" + lid, null);
+    }
+
+    //METHODS RESPONSIBLE FOR HANDLING USER ACTIVITY REGISTRATION
+
+    public int insertIntoFunction(Function function) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("uid", function.uid);
+        contentValues.put("time", function.time);
+        contentValues.put("functionName", function.funName);
+        database.insert("function", null, contentValues);
+
+        return findFunction(function);
+    }
+
+    public int findFunction(Function function){
+        try (Cursor cursor = database.rawQuery("SELECT * FROM function WHERE uid LIKE '" + function.uid
+                + "' AND time LIKE '" + function.time
+                + "' AND functionName LIKE '" + function.funName + "'", null)) {
+            cursor.moveToFirst();
+            cursor.getCount();
+            if (cursor.getCount() == 0) {
+                return -1;
+            } else {
+                return cursor.getInt(0);
+            }
+        }
+    }
+
+    public void insertIntoDataChange(DataChange dataChange) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("uid", dataChange.uid);
+        contentValues.put("rid", dataChange.rid);
+        contentValues.put("fid", dataChange.fid);
+        contentValues.put("actionType", dataChange.actionType);
+        contentValues.put("previousValue", dataChange.previousValue);
+        contentValues.put("presentValue", dataChange.presentValue);
+        contentValues.put("time", dataChange.time);
+        database.insert("data_change", null, contentValues);
     }
 }

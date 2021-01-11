@@ -6,5 +6,5 @@ public interface IEditPassword {
 
     String getCurrentPassword(int uid, String currentPassword);
 
-    void updatePassword(Password password);
+    void updatePassword(Password oldPassword, Password newPassword);
 }

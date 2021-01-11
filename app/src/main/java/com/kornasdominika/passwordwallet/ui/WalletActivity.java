@@ -201,6 +201,7 @@ public class WalletActivity extends AppCompatActivity implements IWalletActivity
         final AlertDialog alertDialog = dialog.create();
 
         ivKey.setOnClickListener(view -> {
+            ivKey.setClickable(false);
             tvPassword.setInputType(InputType.TYPE_CLASS_TEXT);
             if (owner == -2) {
                 tvPassword.setText(wallet.showDecryptedPassword(getLoggedUserId(), password));
@@ -214,9 +215,7 @@ public class WalletActivity extends AppCompatActivity implements IWalletActivity
                 Password sharedPassword = new Password(password, 0, webAddr, description, login, uid, pid);
                 createShareDialog(sharedPassword);
             } else {
-                wallet.deletePassword(pid,
-                        "You lost the preview of this password",
-                        "Error");
+                wallet.stopPreviewingPassword(pid);
                 alertDialog.dismiss();
             }
         });
@@ -240,9 +239,9 @@ public class WalletActivity extends AppCompatActivity implements IWalletActivity
         ivDelete.setOnClickListener(view -> {
             if (SettingsActivity.MODIFY_MODE) {
                 if (owner == -2) {
-                    wallet.deletePassword(pid,
-                            "Password has been deleted successfully",
-                            "Password deleting error");
+                    ivDelete.setClickable(false);
+                    Password deletedPassword = new Password(pid, password, uid, webAddr, description, login, -2, -1);
+                    wallet.deletePassword(pid, deletedPassword);
                     alertDialog.dismiss();
                 } else {
                     Toast.makeText(this, "You have to be the owner to delete this password", Toast.LENGTH_SHORT).show();

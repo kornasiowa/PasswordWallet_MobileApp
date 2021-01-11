@@ -6,4 +6,5 @@ public interface IEditPasswordActivity {
 
     void showMessageForUser(String message);
 
+    void makeButtonEnable();
 }

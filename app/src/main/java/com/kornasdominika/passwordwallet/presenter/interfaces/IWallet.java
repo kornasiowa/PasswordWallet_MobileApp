@@ -13,7 +13,9 @@ public interface IWallet {
 
     void sharePassword(String username, Password sharedPassword, AlertDialog alertDialog);
 
-    void deletePassword(int id, String message, String message2);
+    void deletePassword(int id, Password deletedPassword);
+
+    void stopPreviewingPassword(int id);
 
     String getUserLogin(int uid);
 }

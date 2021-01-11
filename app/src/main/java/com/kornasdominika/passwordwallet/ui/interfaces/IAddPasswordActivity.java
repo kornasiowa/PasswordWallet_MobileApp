@@ -5,4 +5,6 @@ public interface IAddPasswordActivity {
     void showMessageForUser(String message);
 
     void finishActivity();
+
+    void makeButtonEnable();
 }

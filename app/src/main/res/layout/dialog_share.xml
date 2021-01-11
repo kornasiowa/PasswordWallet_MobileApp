@@ -34,7 +34,7 @@
             android:hint="@string/user"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:textColorHint="@color/colorPrimary"
+            android:textColorHint="@color/white"
             android:textSize="15sp" />
 
         <ImageView

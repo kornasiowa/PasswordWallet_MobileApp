@@ -52,6 +52,11 @@ public class AddPasswordActivity extends AppCompatActivity implements IAddPasswo
         finish();
     }
 
+    @Override
+    public void makeButtonEnable(){
+        btnSave.setEnabled(true);
+    }
+
     private void findComponentsIds() {
         ivBack = findViewById(R.id.back);
         etWebAddr = findViewById(R.id.web_address);
@@ -70,6 +75,7 @@ public class AddPasswordActivity extends AppCompatActivity implements IAddPasswo
             String login = String.valueOf(etLogin.getText());
             String password = String.valueOf(etPassword.getText());
             if (addingNewPasswordValidation(webAddress, description, login, password)) {
+                btnSave.setEnabled(false);
                 addPassword.addNewPasswordToWallet(getLoggedUserId(), password, webAddress, description, login);
             }
         });
