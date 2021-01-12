@@ -57,9 +57,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "rid INTEGER  NOT NULL, " +
             "fid INTEGER  NOT NULL, " +
             "actionType VARCHAR(56) NOT NULL, " +
-            "previousValue VARCHAR(256), " +
-            "presentValue VARCHAR(256), " +
+            "previousValue VARCHAR(300), " +
+            "presentValue VARCHAR(300), " +
             "time VARCHAR(56) NOT NULL, " +
+            "isRestored INTEGER NOT NULL, " +
             "FOREIGN KEY(uid) REFERENCES user(id))";
 
     private static final int DB_VERSION = 1;

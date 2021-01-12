@@ -160,12 +160,11 @@ public class Wallet implements IWallet {
         int fid = registerAction(deletedPassword.uid, "Delete password");
 
         String time = getCurrentDate();
-        String oldPassword = showDecryptedPassword(deletedPassword.uid, deletedPassword.password);
-        String previousData = oldPassword + "|" + deletedPassword.webAddress + "|"
+        String previousData = deletedPassword.password + "|" + deletedPassword.webAddress + "|"
                 + deletedPassword.description + "|" + deletedPassword.login;
 
         DataChange dataChange
-                = new DataChange(deletedPassword.uid, deletedPassword.pid, fid, "delete", previousData, null, time);
+                = new DataChange(deletedPassword.uid, deletedPassword.pid, fid, "delete", previousData, null, time, 0);
 
         databaseManager.open();
         databaseManager.insertIntoDataChange(dataChange);

@@ -11,7 +11,7 @@
     <string name="sha">SHA512</string>
     <string name="encrypt">Select your encryption option:</string>
     <string name="menu1">Settings</string>
-    <string name="menu2">Database test</string>
+    <string name="menu2">Activity registration</string>
     <string name="menu3">Log out</string>
     <string name="web_addr">Web address</string>
     <string name="descript">Description</string>
@@ -36,11 +36,25 @@
     <string name="time_list">ATTEMPT\'S TIME</string>
     <string name="details_list">DETAILS</string>
     <string name="to">Send to:</string>
-    <string name="enter_modify_mode">Modify Mode</string>
-    <string name="banner">
-        READ-ONLY MODE
-    </string>
-    <string name="banner2">
-        MODIFY MODE
-    </string>
+    <string name="banner">Read-only Mode</string>
+    <string name="banner2">Modify Mode</string>
+    <string name="action_type">Action type</string>
+    <string name="action">Action type:</string>
+
+    <array name="action">
+        <item>All actions</item>
+        <item>Add password</item>
+        <item>Edit password</item>
+        <item>Delete password</item>
+        <item>Share password</item>
+        <item>View password</item>
+    </array>
+
+    <string name="time">Time</string>
+    <string name="user2">User</string>
+    <string name="present_data">Present data</string>
+    <string name="previous_data">Previous data</string>
+    <string name="inserted_data">Inserted data</string>
+    <string name="deleted_data">Deleted data</string>
+    <string name="restore">No data to restore</string>
 </resources>

@@ -101,17 +101,17 @@ public class EditPassword implements IEditPassword {
         int fid = registerAction(newPassword.uid);
 
         String time = getCurrentDate();
-        String previousData = getDecryptedPassword(oldPassword.password, hashDTO.getHash())
+        String previousData = oldPassword.password
                 + "|" + oldPassword.webAddress
                 + "|" + oldPassword.description
                 + "|" + oldPassword.login;
-        String presentData = getDecryptedPassword(newPassword.password, hashDTO.getHash())
+        String presentData = newPassword.password
                 + "|" + newPassword.webAddress
                 + "|" + newPassword.description
                 + "|" + newPassword.login;
 
         DataChange dataChange
-                = new DataChange(newPassword.uid, newPassword.pid, fid, "edit", previousData, presentData, time);
+                = new DataChange(newPassword.uid, newPassword.pid, fid, "edit", previousData, presentData, time, 0);
 
         databaseManager.open();
         databaseManager.insertIntoDataChange(dataChange);

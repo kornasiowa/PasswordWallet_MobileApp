@@ -289,7 +289,7 @@ public class DatabaseManager {
         }
     }
 
-    public int findPasswordByLogin(int id) {
+    public int findPasswordById(int id) {
         try (Cursor cursor = database.rawQuery("SELECT * FROM password WHERE id LIKE '" + id + "'", null)) {
             cursor.moveToFirst();
             cursor.getCount();
@@ -312,7 +312,18 @@ public class DatabaseManager {
     public boolean deletePassword(int id) {
         database.delete("password", "id=" + id, null);
         database.delete("password", "mid=" + id, null);
-        return findPasswordByLogin(id) == -1 && findPasswordByMid(id) == -1;
+        return findPasswordById(id) == -1 && findPasswordByMid(id) == -1;
+    }
+
+    public Password getPasswordByPid(int pid) {
+        try (Cursor cursor = database.rawQuery("SELECT * FROM password WHERE id LIKE '" + pid + "'", null)) {
+            cursor.moveToFirst();
+            cursor.getCount();
+            if (cursor.getCount() == 0) {
+                return null;
+            } else return new Password(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),
+                    cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7));
+        }
     }
 
 
@@ -382,7 +393,7 @@ public class DatabaseManager {
         return findFunction(function);
     }
 
-    public int findFunction(Function function){
+    public int findFunction(Function function) {
         try (Cursor cursor = database.rawQuery("SELECT * FROM function WHERE uid LIKE '" + function.uid
                 + "' AND time LIKE '" + function.time
                 + "' AND functionName LIKE '" + function.funName + "'", null)) {
@@ -405,6 +416,37 @@ public class DatabaseManager {
         contentValues.put("previousValue", dataChange.previousValue);
         contentValues.put("presentValue", dataChange.presentValue);
         contentValues.put("time", dataChange.time);
+        contentValues.put("isRestored", dataChange.isRestored);
         database.insert("data_change", null, contentValues);
+    }
+
+    public Cursor getAllUserStatistics(int uid) {
+        Cursor cursor = database.rawQuery("SELECT id as _id, uid, time, functionName FROM function WHERE uid LIKE '" + uid + "'", null);
+        return cursor;
+    }
+
+    public Cursor getAllUserStatistics(int uid, String type) {
+        Cursor cursor = database.rawQuery("SELECT id as _id, uid, time, functionName FROM function WHERE uid LIKE '" + uid
+                + "' AND functionName LIKE '" + type + "'", null);
+        return cursor;
+    }
+
+    public DataChange findDataChangeRecord(int fid) {
+        try (Cursor cursor = database.rawQuery("SELECT * FROM data_change WHERE fid LIKE '" + fid + "'", null)) {
+            cursor.moveToFirst();
+            cursor.getCount();
+            if (cursor.getCount() == 0) {
+                return null;
+            } else {
+                return new DataChange(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3),
+                        cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getInt(8));
+            }
+        }
+    }
+
+    public void updateIfRecordIsRestored(int cid) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("isRestored", 1);
+        database.update("data_change", contentValues, "id=" + cid, null);
     }
 }

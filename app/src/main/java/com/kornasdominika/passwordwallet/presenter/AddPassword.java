@@ -59,7 +59,7 @@ public class AddPassword implements IAddPassword {
                         new Password(encryptedPassword, uid, webAddr, description, login, -2, -1));
                 databaseManager.close();
                 if (result != -1) {
-                    registerDataChangeAfterAddAction(new Password(result, password, uid, webAddr, description, login, -2, -1));
+                    registerDataChangeAfterAddAction(new Password(result, encryptedPassword, uid, webAddr, description, login, -2, -1));
                     addPasswordActivity.showMessageForUser("New password saved");
                     addPasswordActivity.finishActivity();
                     return true;
@@ -112,7 +112,7 @@ public class AddPassword implements IAddPassword {
                 + newPassword.description + "|" + newPassword.login;
 
         DataChange dataChange
-                = new DataChange(newPassword.uid, newPassword.pid, fid,"add", null, presentData, time);
+                = new DataChange(newPassword.uid, newPassword.pid, fid,"add", null, presentData, time, 0);
 
         databaseManager.open();
         databaseManager.insertIntoDataChange(dataChange);

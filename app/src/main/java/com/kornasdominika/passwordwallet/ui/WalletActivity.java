@@ -69,6 +69,9 @@ public class WalletActivity extends AppCompatActivity implements IWalletActivity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.backup:
+                startNewActivity(BackupActivity.class, 4);
+                return true;
             case R.id.change_pass:
                 startNewActivity(SettingsActivity.class, 2);
                 return true;
@@ -102,7 +105,7 @@ public class WalletActivity extends AppCompatActivity implements IWalletActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 || requestCode == 3) {
+        if (requestCode == 1 || requestCode == 3 || requestCode == 4) {
             if (resultCode == Activity.RESULT_OK) {
                 //updateList();
                 setListAdapter();

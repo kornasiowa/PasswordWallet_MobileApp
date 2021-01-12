@@ -10,8 +10,10 @@ public class DataChange {
     public String previousValue;
     public String presentValue;
     public String time;
+    public int isRestored;
 
-    public DataChange(int uid, int rid, int fid, String actionType, String previousValue, String presentValue, String time) {
+    public DataChange(int cid, int uid, int rid, int fid, String actionType, String previousValue, String presentValue, String time, int isRestored) {
+        this.cid = cid;
         this.uid = uid;
         this.rid = rid;
         this.fid = fid;
@@ -19,6 +21,18 @@ public class DataChange {
         this.previousValue = previousValue;
         this.presentValue = presentValue;
         this.time = time;
+        this.isRestored = isRestored;
+    }
+
+    public DataChange(int uid, int rid, int fid, String actionType, String previousValue, String presentValue, String time, int isRestored) {
+        this.uid = uid;
+        this.rid = rid;
+        this.fid = fid;
+        this.actionType = actionType;
+        this.previousValue = previousValue;
+        this.presentValue = presentValue;
+        this.time = time;
+        this.isRestored = isRestored;
     }
 
     public int getCid() {
@@ -43,6 +57,14 @@ public class DataChange {
 
     public void setRid(int rid) {
         this.rid = rid;
+    }
+
+    public int getFid() {
+        return fid;
+    }
+
+    public void setFid(int fid) {
+        this.fid = fid;
     }
 
     public String getActionType() {
@@ -75,5 +97,13 @@ public class DataChange {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int isRestored() {
+        return isRestored;
+    }
+
+    public void setRestored(int restored) {
+        isRestored = restored;
     }
 }

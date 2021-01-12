@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.EditPasswordActivity"></activity>
+        <activity android:name=".ui.BackupActivity"></activity>
+        <activity android:name=".ui.EditPasswordActivity" />
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.AddPasswordActivity" />
         <activity android:name=".ui.WalletActivity" />

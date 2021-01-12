@@ -100,4 +100,18 @@ public class Password implements Serializable {
     public void setMid(int mid) {
         this.mid = mid;
     }
+
+    @Override
+    public String toString() {
+        return "Password{" +
+                "pid=" + pid +
+                ", password='" + password + '\'' +
+                ", uid=" + uid +
+                ", webAddress='" + webAddress + '\'' +
+                ", description='" + description + '\'' +
+                ", login='" + login + '\'' +
+                ", owner=" + owner +
+                ", mid=" + mid +
+                '}';
+    }
 }

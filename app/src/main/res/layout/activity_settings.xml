@@ -51,10 +51,9 @@
                         android:id="@+id/mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/enter_modify_mode"
+                        android:text="@string/banner2"
                         android:textSize="16sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

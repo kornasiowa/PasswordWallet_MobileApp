@@ -83,12 +83,14 @@ public class EditPasswordActivity extends AppCompatActivity implements IEditPass
             String password = String.valueOf(etPassword.getText());
             if (editPasswordValidation(webAddress, description, login, password)) {
                 btnSave.setEnabled(false);
-                Password oldPassword = currentPassword;
-                currentPassword.setWebAddress(webAddress);
-                currentPassword.setDescription(description);
-                currentPassword.setLogin(login);
-                currentPassword.setPassword(password);
-                editPassword.updatePassword(oldPassword, currentPassword);
+                Password newPassword = new Password(currentPassword.pid, currentPassword.password,
+                        currentPassword.uid, currentPassword.webAddress, currentPassword.description,
+                        currentPassword.login, currentPassword.owner, currentPassword.mid);
+                newPassword.setWebAddress(webAddress);
+                newPassword.setDescription(description);
+                newPassword.setLogin(login);
+                newPassword.setPassword(password);
+                editPassword.updatePassword(currentPassword, newPassword);
             }
         });
     }
