@@ -39,7 +39,7 @@ In the details view, a field with the name of the owner of the password will als
 The user can only view such a password. There is no access to edit or delete this password. Alternatively, the user can resign from sharing the password by selecting the only active *stop* button.
 The password will disappear from the list of all passwords on the home screen.
 
-If the user is the owner of the password, selecting the password sharing option will display an appropriate dialog in which the user must provide the username with whom he wants to share the password.
+If the user is the owner of the password, selecting the password sharing option will display the appropriate dialog box in which the user must provide the username to whom he wants to send the password.
 
 <p float="left">
 <img src="https://github.com/kornasiowa/PasswordWallet_MobileApp/blob/master/screenshots/Screenshot_20210217-145044_Password%20Wallet.jpg" width="250">
