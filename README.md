@@ -11,6 +11,8 @@ of main access password to the user's account. The application has been protecte
 
 Additionally, the possibility of sharing passwords, two operating modes of the application and a mechanism for restoring changed or lost passwords have been implemented.
 
+The application has been implemented in the MVP architecture.
+
 ## Overview
 The login screen allows the user to authorize with an application account or go to the registration form 
 in which user chooses individual username, main account password and encryption algorithm.
